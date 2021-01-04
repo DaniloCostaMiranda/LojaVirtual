@@ -15,6 +15,9 @@ using LVirt.Repositories;
 using LVirt.Repositories.Contracts;
 using LVirt.Libraries.Sessao;
 using LVirt.Libraries.Login;
+using System.Net.Mail;
+using System.Net;
+using LVirt.Libraries.Email;
 
 namespace LVirt
 {
@@ -44,11 +47,30 @@ namespace LVirt
             services.AddScoped<IColaboradorRepository, ColaboradorRepository>();
             services.AddScoped<ICategoriaRepository, CategoriaRepository>();
 
+            /*
+             *SMTP
+             */
+            services.AddScoped<SmtpClient>(options=>
+            {
+                SmtpClient smtp = new SmtpClient()
+                {
+                    Host = Configuration.GetValue<string>("Email:ServerSMTP"),
+                    Port = Configuration.GetValue<int>("Email:ServerPort"),
+                    UseDefaultCredentials = false,
+                    Credentials = new NetworkCredential(Configuration.GetValue<string>("Email:Username"), Configuration.GetValue<string>("Email:Password")),
+                    EnableSsl = true
+                };
+                return smtp;
+            });
+
+            services.AddScoped<GerenciarEmail>();
+            
+
             services.AddScoped<Sessao>();
             services.AddScoped<LoginCliente>();
             services.AddScoped<LoginColaborador>();
-            services.AddControllersWithViews();
-
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();
+            
             services.AddDbContext<LojaVirtualContext>(options =>
                     options.UseMySql(Configuration.GetConnectionString("LojaVirtualContext"), builder =>
                     builder.MigrationsAssembly("LVirt")));

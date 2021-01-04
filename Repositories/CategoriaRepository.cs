@@ -6,17 +6,19 @@ using LVirt.Migrations;
 using LVirt.Models;
 using LVirt.Repositories.Contracts;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using X.PagedList;
 
 namespace LVirt.Repositories
 {
     public class CategoriaRepository : ICategoriaRepository
     {
-        const int _registroPorPagina = 10;
+        IConfiguration _conf;
         LojaVirtualContext _banco;
-        public CategoriaRepository(LojaVirtualContext banco)
+        public CategoriaRepository(LojaVirtualContext banco, IConfiguration configuration)
         {
             _banco = banco;
+            _conf = configuration;
         }
 
         public void Atualizar(Categoria categoria)
@@ -46,8 +48,9 @@ namespace LVirt.Repositories
 
         public IPagedList<Categoria> ObterTodasCategorias(int? pagina)
         {
+            int RegistroPorPagina = _conf.GetValue<int>("RegistroPorPagina");
             int NumeroPagina = pagina ?? 1;
-            return _banco.Categorias.Include(a=>a.CategoriaPai).ToPagedList<Categoria>(NumeroPagina, _registroPorPagina);
+            return _banco.Categorias.Include(a=>a.CategoriaPai).ToPagedList<Categoria>(NumeroPagina, RegistroPorPagina);
         }
 
         public IEnumerable<Categoria> ObterTodasCategorias()

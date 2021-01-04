@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using LVirt.Models;
+using X.PagedList;
 
 namespace LVirt.Repositories.Contracts
 {
@@ -13,6 +14,7 @@ namespace LVirt.Repositories.Contracts
         void Excluir(int Id);
 
         Colaborador ObterColaborador(int Id);
-        IEnumerable<Colaborador> ObterTodosColaboradores();
+       
+        IPagedList<Colaborador> ObterTodosColaboradores(int? pagina);
     }
 }

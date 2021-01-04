@@ -4,15 +4,21 @@ using System.Linq;
 using LVirt.Database;
 using LVirt.Models;
 using LVirt.Repositories.Contracts;
+using Microsoft.Extensions.Configuration;
+using X.PagedList;
 
 namespace LVirt.Repositories
 {
+
+
     public class ColaboradorRepository : IColaboradorRepository
     {
+        private IConfiguration _conf;
         private LojaVirtualContext _banco;
-        public ColaboradorRepository(LojaVirtualContext banco)
+        public ColaboradorRepository(LojaVirtualContext banco, IConfiguration configuration)
         {
             _banco = banco;
+            _conf = configuration;
         }
 
         public void Atualizar(Colaborador colaborador)
@@ -45,9 +51,14 @@ namespace LVirt.Repositories
             return _banco.Colaboradores.Find(Id);
         }
 
-        public IEnumerable<Colaborador> ObterTodosColaboradores()
+      
+
+        public IPagedList<Colaborador> ObterTodosColaboradores(int? pagina)
         {
-            return _banco.Colaboradores.ToList();
+            int RegistroPorPagina = _conf.GetValue<int>("RegistroPorPagina");
+            int NumeroPagina = pagina ?? 1;
+            return _banco.Colaboradores.Where(a => a.Tipo != "G").ToPagedList<Colaborador>(NumeroPagina, RegistroPorPagina);
         }
+
     }
 }

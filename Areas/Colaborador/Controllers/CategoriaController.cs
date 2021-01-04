@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using LVirt.Libraries.Filtro;
+using LVirt.Libraries.Lang;
 using LVirt.Models;
 using LVirt.Repositories.Contracts;
 using Microsoft.AspNetCore.Mvc;
@@ -45,7 +46,7 @@ namespace LVirt.Areas.Colaborador.Controllers
             {
                 _categoriaRepository.Cadastrar(categoria);
 
-                TempData["MSG_S"] = "Registro salvo com sucesso!";
+                TempData["MSG_S"] = Mensagem.MSG_S001;
 
                 return RedirectToAction(nameof(Index));
             }
@@ -54,32 +55,32 @@ namespace LVirt.Areas.Colaborador.Controllers
         }
 
         [HttpGet]
-        public IActionResult Atualizar(int Id)
+        public IActionResult Atualizar(int id)
         {
-            var catego = _categoriaRepository.ObterCategoria(Id);
-            ViewBag.Categorias = _categoriaRepository.ObterTodasCategorias().Where(a=>a.Id != Id).Select(a => new SelectListItem(a.Nome, a.Id.ToString()));
+            var catego = _categoriaRepository.ObterCategoria(id);
+            ViewBag.Categorias = _categoriaRepository.ObterTodasCategorias().Where(a=>a.Id != id).Select(a => new SelectListItem(a.Nome, a.Id.ToString()));
             return View(catego);
         }
 
         [HttpPost]
-        public IActionResult Atualizar([FromForm]Categoria categoria, int Id)
+        public IActionResult Atualizar([FromForm]Categoria categoria, int id)
         {
             if (ModelState.IsValid)
             {
                 _categoriaRepository.Atualizar(categoria);
-                TempData["MSG_S"] = "Registro salvo com sucesso!";
+                TempData["MSG_S"] = Mensagem.MSG_S001;
 
                 return RedirectToAction(nameof(Index));
             }
-            ViewBag.Categorias = _categoriaRepository.ObterTodasCategorias().Where(a => a.Id != Id).Select(a => new SelectListItem(a.Nome, a.Id.ToString()));
+            ViewBag.Categorias = _categoriaRepository.ObterTodasCategorias().Where(a => a.Id != id).Select(a => new SelectListItem(a.Nome, a.Id.ToString()));
             return View();
         }
 
         [HttpGet]
-        public IActionResult Excluir(int Id)
+        public IActionResult Excluir(int id)
         {
-            _categoriaRepository.Excluir(Id);
-            TempData["MSG_S"] = "Registro excluido com sucesso!";
+            _categoriaRepository.Excluir(id);
+            TempData["MSG_S"] = Mensagem.MSG_S002;
             return RedirectToAction(nameof(Index));
         }
     }
