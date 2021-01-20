@@ -26,8 +26,9 @@ namespace LVirt.Areas.Colaborador.Controllers
        
         public IActionResult Index(int? pagina)
         {
-           IPagedList<Models.Colaborador> colaboradores = _colaboradorRepository.ObterTodosColaboradores(pagina);
+            IPagedList<Models.Colaborador> colaboradores = _colaboradorRepository.ObterTodosColaboradores(pagina);
             return View(colaboradores);
+
         }
 
         [HttpGet]
@@ -39,11 +40,14 @@ namespace LVirt.Areas.Colaborador.Controllers
         [HttpPost]
         public IActionResult Cadastrar([FromForm]Models.Colaborador colaborador)
         {
+            ModelState.Remove("Senha");
             if (ModelState.IsValid)
             {
                 //TODO - Gerar senha aleatorio, enviar o email
                 colaborador.Tipo = "C";
+                colaborador.Senha = KeyGenerator.GetUniqueKey(8);
                 _colaboradorRepository.Cadastrar(colaborador);
+                _gerenciarEmail.EnviarSenhaParaColaboradorPorEmail(colaborador);
 
                 TempData["MSG_S"] = Mensagem.MSG_S001;
 
@@ -76,6 +80,7 @@ namespace LVirt.Areas.Colaborador.Controllers
         [HttpPost]
         public IActionResult Atualizar([FromForm] Models.Colaborador colaborador, int id)
         {
+            ModelState.Remove("Senha");
             if (ModelState.IsValid)
             {
                 _colaboradorRepository.Atualizar(colaborador);
