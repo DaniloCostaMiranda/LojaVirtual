@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using LVirt.Models;
+using X.PagedList;
 
 namespace LVirt.Repositories.Contracts
 {
@@ -12,7 +13,7 @@ namespace LVirt.Repositories.Contracts
         void Atualizar(Cliente cliente);
         void Excluir(int Id);
         Cliente ObterCliente(int Id);
-        IEnumerable<Cliente> ObterTodosClientes();
+        IPagedList<Cliente> ObterTodosClientes(int? pagina, string pesquisa);
 
     }
 }

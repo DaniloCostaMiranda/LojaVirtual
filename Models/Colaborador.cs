@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using LVirt.Libraries.Lang;
+using LVirt.Libraries.Validacao;
 
 namespace LVirt.Models
 {
@@ -17,6 +18,7 @@ namespace LVirt.Models
         [Required(ErrorMessageResourceType = typeof(Mensagem), ErrorMessageResourceName = "MSG_E001")]
         [EmailAddress(ErrorMessageResourceType = typeof(Mensagem), ErrorMessageResourceName = "MSG_E004")]
         [Display(Name="E-mail")]
+        [EmailUnicoColaborador]
         public string Email { get; set; }
 
         [Required(ErrorMessageResourceType = typeof(Mensagem), ErrorMessageResourceName = "MSG_E001")]
@@ -29,6 +31,7 @@ namespace LVirt.Models
         [Compare("Senha", ErrorMessageResourceType = typeof(Mensagem), ErrorMessageResourceName = "MSG_E005")]
         public string ConfirmaçãoSenha { get; set; }
 
+        //Tipo = ColaboradorTipoConstant
         public string Tipo { get; set; }
     }
 }

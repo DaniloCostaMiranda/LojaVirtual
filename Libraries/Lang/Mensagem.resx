@@ -17,4 +17,6 @@
     <data name="MSG_S001" xml:space="preserve"> <value>Registro salvo com sucesso!</value> </data>
     <data name="MSG_S002" xml:space="preserve"> <value>Registro excluído com sucesso!</value> </data>
     <data name="MSG_S003" xml:space="preserve"> <value>Senha enviada para email do colaborador com sucesso!</value> </data>
-   </root>
+    <data name="MSG_E006" xml:space="preserve"> <value>Valor do campo {0} não se encontra entre {1} e {2}</value> </data>
+   
+</root>

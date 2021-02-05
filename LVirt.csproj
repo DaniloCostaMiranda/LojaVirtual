@@ -34,6 +34,13 @@
     <Folder Include="wwwroot\js\" />
     <Folder Include="Areas\Colaborador\Views\Colaborador\" />
     <Folder Include="Libraries\Texto\" />
+    <Folder Include="Libraries\Validacao\" />
+    <Folder Include="Libraries\Middleware\" />
+    <Folder Include="Models\Constants\" />
+    <Folder Include="Areas\Colaborador\Views\Cliente\" />
+    <Folder Include="Areas\Colaborador\Views\Produto\" />
+    <Folder Include="wwwroot\Img\" />
+    <Folder Include="wwwroot\resources\lib\mask\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />

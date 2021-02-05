@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@inject LVirt.Libraries.Login.LoginColaborador colaborador
+<!DOCTYPE html>
 
 <html lang="pt-br">
 <head>
@@ -9,30 +10,32 @@
     <meta name="generator" content="Hugo 0.79.0">
     <title>@ViewBag.Title</title>
 
-    
 
 
 
+    <link href="/css/StyleSheet.css" rel="stylesheet" type="text/css" />
     <!-- Bootstrap core CSS -->
+
+
     <link href="/resources/lib/bootstrap-4.2.1-dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="/resources/lib/pagedlist/PagedList.css" rel="stylesheet" type="text/css" />
 
 
 
     <style>
-      .bd-placeholder-img {
-        font-size: 1.125rem;
-        text-anchor: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        user-select: none;
-      }
-
-      @@media (min-width: 768px) {
-        .bd-placeholder-img-lg {
-          font-size: 3.5rem;
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
         }
-      }
+
+        @@media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
     </style>
 
 
@@ -77,8 +80,19 @@
                                 Produtos
                             </a>
                         </li>
+                        @if (colaborador.GetColaborador() != null && colaborador.GetColaborador().Tipo == ColaboradorTipoConstant.Gerente)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Colaborador" asp-action="Index">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                                    Colaborador
+                                </a>
+                            </li>
+                        }
+
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" asp-controller="Cliente" asp-action="Index">
+                                <span data-feather="users"></span>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
                                 Clientes
                             </a>
@@ -134,17 +148,18 @@
 
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
                 @RenderBody()
-               
+
             </main>
         </div>
     </div>
     <script src="/resources/lib/jquery3.3.1/jquery-3.3.1.min.js"></script>
     <script>window.jQuery || document.write('<scrip src="/resources/lib/jquery3.3.1/jquery-3.3.1.min.js"><\/script>')</script>
-    <script src="/js/Actions.js"></script>
-    <script src="/resource/lib/bootstrap-4.2.1-dist/js/bootstrap.min.js"></script>
+    <script src="/resources/lib/mask/jquery.mask.min.js"></script>
+    <script src="/resources/lib/bootstrap-4.2.1-dist/js/bootstrap.min.js"></script>
     <script src="/resources/lib/charts/charts.js"></script>
     <script src="/resources/lib/feather/feather.js"></script>
     <script src="/resources/lib/dashboard/dashboard.js"></script>
+    <script src="/js/Actions.js"></script>
 
 
 </body>

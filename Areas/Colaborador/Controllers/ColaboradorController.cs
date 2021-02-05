@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using LVirt.Libraries.Email;
+using LVirt.Libraries.Filtro;
 using LVirt.Libraries.Lang;
 using LVirt.Libraries.Texto;
+using LVirt.Models.Constants;
 using LVirt.Repositories.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using X.PagedList;
@@ -14,6 +16,7 @@ using X.PagedList;
 namespace LVirt.Areas.Colaborador.Controllers
 {
     [Area("Colaborador")]
+    [ColaboradorAutorizacao(ColaboradorTipoConstant.Gerente)]
     public class ColaboradorController : Controller
     {
         private IColaboradorRepository _colaboradorRepository;
@@ -44,7 +47,7 @@ namespace LVirt.Areas.Colaborador.Controllers
             if (ModelState.IsValid)
             {
                 //TODO - Gerar senha aleatorio, enviar o email
-                colaborador.Tipo = "C";
+                colaborador.Tipo = ColaboradorTipoConstant.Comum;
                 colaborador.Senha = KeyGenerator.GetUniqueKey(8);
                 _colaboradorRepository.Cadastrar(colaborador);
                 _gerenciarEmail.EnviarSenhaParaColaboradorPorEmail(colaborador);
@@ -57,12 +60,13 @@ namespace LVirt.Areas.Colaborador.Controllers
         }
 
         [HttpGet]
+        [ValidateHttpReferer]
         public IActionResult GerarSenha(int id)
         {
             Models.Colaborador colaborador = _colaboradorRepository.ObterColaborador(id);
             //TODO - Gerar senha aleatorio, salvar nova, enviar o email
             colaborador.Senha = KeyGenerator.GetUniqueKey(8);
-            _colaboradorRepository.Atualizar(colaborador);
+            _colaboradorRepository.AtualizarSenha(colaborador);
             _gerenciarEmail.EnviarSenhaParaColaboradorPorEmail(colaborador);
 
             TempData["MSG_S"] = Mensagem.MSG_S003;
@@ -92,6 +96,7 @@ namespace LVirt.Areas.Colaborador.Controllers
         }
 
         [HttpGet]
+        [ValidateHttpReferer]
         public IActionResult Excluir(int id)
         {
             _colaboradorRepository.Excluir(id);

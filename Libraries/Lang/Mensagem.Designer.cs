@@ -94,5 +94,11 @@ namespace LVirt.Libraries.Lang {
                 return ResourceManager.GetString("MSG_S003", resourceCulture);
             }
         }
+        
+        internal static string MSG_E006 {
+            get {
+                return ResourceManager.GetString("MSG_E006", resourceCulture);
+            }
+        }
     }
 }

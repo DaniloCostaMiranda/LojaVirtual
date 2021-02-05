@@ -18,6 +18,7 @@ using LVirt.Libraries.Login;
 using System.Net.Mail;
 using System.Net;
 using LVirt.Libraries.Email;
+using LVirt.Libraries.Middleware;
 
 namespace LVirt
 {
@@ -46,6 +47,8 @@ namespace LVirt
             services.AddScoped<INewsletterRepository, NewsletterRepository>();
             services.AddScoped<IColaboradorRepository, ColaboradorRepository>();
             services.AddScoped<ICategoriaRepository, CategoriaRepository>();
+            services.AddScoped<IProdutoRepository, ProdutoRepository>();
+            services.AddScoped<IImagemRepository, ImagemRepository>();
 
             /*
              *SMTP
@@ -99,6 +102,7 @@ namespace LVirt
 
             app.UseAuthorization();
             app.UseSession();
+            app.UseMiddleware<ValidateAntiForgeryTokenMiddleware>();
   
             app.UseEndpoints(endpoints =>
             {
